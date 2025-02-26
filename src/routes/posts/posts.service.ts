@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/share/services/prisma/prisma.service';
+
 
 @Injectable()
 export class PostsService {
-    getPosts(){
-        return 'All posts';
-    }
 
-    createPost(body: any){
-        return body;
-    }
+  constructor(private readonly PrismaService: PrismaService){}
+  getPosts() {
+    return this.PrismaService.post.findMany();
+  }
 
-    getPost(id: string){
-        return 'Posts : $id';
-    }
+  createPost(body: any) {
+    const UserId =1;
 
-    updatePost(id: string,body: any){
-        return 'update Posts :  $id';
-    }
+    return this.PrismaService.post.create({
+       
+      data:{
+        
+      title: body.title,
+      content: body.content,
+      userId: UserId,
+      
+      }
 
-    deletePost(id: string){
-        return 'delete tt';
-    }
+      
+    });
+  }
 
+  getPost(id: string) {
+    return `Post: ${id}`;
+  }
+
+  updatePost(id: string, body: any) {
+    return `Update Post: ${id}`;
+  }
+
+  deletePost(id: string) {
+    return `Deleted Post: ${id}`;
+  }
 }
+
 
