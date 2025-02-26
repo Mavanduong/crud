@@ -12,8 +12,9 @@ export class PostsController {
 
   @Post()
   createPost(@Body() body: any) {
-    return this.postsService.createPost(body);
-  }
+  console.log("Received Body:", body); 
+  return this.postsService.createPost(body);
+}
 
   @Get(':id')
   getPost(@Param('id') id: string) {
@@ -22,11 +23,11 @@ export class PostsController {
 
   @Put(':id')
   updatePost(@Param('id') id: string, @Body() body: any) {
-    return this.postsService.updatePost(id, body);
+    return this.postsService.updatePosts(id, body);
   }
 
   @Delete(':id')
   deletePost(@Param('id') id: string) {
-    return this.postsService.deletePost(id);
+    return this.postsService.deletePosts(id);
   }
 }
