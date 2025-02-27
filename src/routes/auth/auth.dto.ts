@@ -2,11 +2,21 @@ import { Exclude } from "class-transformer"
 import { IsString } from "class-validator"
 
 export class LoginBodyDTO{
-    @IsString({message: 'Lỗi email bị trùng hoặc có thể lỗi vui lòng kiểm tra lại'})
+    @IsString({message: 'Lỗi email '})
     email: string
-    @IsString({message: 'Lỗi name'})
+    @IsString({message: 'Lỗi password'})
     password: string
 }
+
+export class LoginResDTO {
+    accessToken: string;
+    refreshToken: string;
+  
+    constructor(partial: Partial<LoginResDTO>) {
+      Object.assign(this, partial);
+    }
+  }
+  
 
 export class RegisterBodyDTO extends LoginBodyDTO{
     @IsString({message: 'Lỗi name'})
