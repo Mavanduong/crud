@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { config } from 'dotenv';
 import envCofig from 'src/share/config';
-import { PrismaService } from 'src/share/services/prisma/prisma.service';
+import { PrismaService } from 'src/share/services/prisma.service';
 
 
 @Injectable()
