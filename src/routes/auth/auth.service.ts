@@ -67,7 +67,7 @@ export class AuthService {
   async generateTokens(payload: { userId: number }) {
     const [accessToken, refreshToken] = await Promise.all([
       this.tokenService.signAccessToken(payload ), 
-      this.tokenService.signRefreshToken(payload ),
+      this.tokenService.signRefreshToken(payload )
     ])
 
     const decodedRefreshToken = await this.tokenService.verifyRefreshToken(refreshToken);
@@ -83,4 +83,31 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
   
-}
+
+
+  async refreshToken(refreshToken: string) {
+    try {
+      const { userId } = await this.tokenService.verifyRefreshToken(refreshToken);
+  
+      // Check if refreshToken exists
+      await this.prismaService.refreshToken.findUniqueOrThrow({
+        where: { token: refreshToken },
+      });
+  
+      // Delete old refreshToken
+      await this.prismaService.refreshToken.delete({
+        where: { token: refreshToken },
+      });
+  
+      // Generate new tokens
+      return this.generateTokens({ userId });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        throw new UnauthorizedException('Refresh token has been revoked');
+      }
+  
+      throw new UnauthorizedException();
+    }
+  }
+  }
+

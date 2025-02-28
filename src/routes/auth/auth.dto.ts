@@ -37,3 +37,12 @@ export class RegisterResDTO{
         Object.assign(this, partial);
     }
 }
+
+export class RefreshTokenBodyDTO {
+    @IsString()
+    refreshToken: string
+}
+
+export class RefreshTokenResDTO extends LoginResDTO {
+
+}
