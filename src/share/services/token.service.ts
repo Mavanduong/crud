@@ -9,7 +9,7 @@ export class TokenService {
         private readonly jwtService: JwtService
     ){}
 
-    signAccessToken(payload: { userId: number }) {
+    signAccessToken(payload: { userId: number}) {
 
         return this.jwtService.sign(payload, {
             secret: envCofig.ACCESS_TOKEN_SECRET,
@@ -24,14 +24,14 @@ export class TokenService {
             algorithm: 'HS256' 
         })
     }
-    verifyAccessToken(token: string){
-        return this.jwtService.verifyAsync(token,{
+    verifyAccessToken(token: string): Promise<TokenPayload>{
+        return this.jwtService.verifyAsync(token, {
             secret: envCofig.ACCESS_TOKEN_SECRET
         })
     }
     verifyRefreshToken(token: string): Promise<TokenPayload>{
         return this.jwtService.verifyAsync(token,{
-            secret: envCofig.ACCESS_TOKEN_SECRET
+            secret: envCofig.REFRESH_TOKEN_SECRET,
         })
     }
 }
